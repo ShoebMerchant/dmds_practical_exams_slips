@@ -6,6 +6,8 @@ and find out mean absolute error,
 mean squared error and root mean squared error.
 '''
 from math import sqrt
+# To use sklearn install scikit-learn with command
+# pip install scikit-learn
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
@@ -19,13 +21,10 @@ Next, you will need to split the data into training and testing sets.
 You can do this using the train_test_split 
 function from the sklearn.model_selection module:
 '''
-
-
 # Split the data into training and testing sets
 X = df[["Hours"]]
 y = df[["Scores"]]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
 
 '''
 Once you have the training and testing sets, 
@@ -33,8 +32,6 @@ you can fit a simple linear regression model
 to the training data using the LinearRegression class 
 from the sklearn.linear_model module:
 '''
-
-
 # Fit a linear regression model to the training data
 model = LinearRegression()
 model.fit(X_train, y_train)
