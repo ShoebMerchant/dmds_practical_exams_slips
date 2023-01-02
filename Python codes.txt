@@ -1,0 +1,517 @@
+Q1)Write a very simple python program
+Consider the student data set. It can be downloaded from:
+https://drive.google.com/open?id=1oakZCv7g3mlmCSdv9J8kdSaqO 5_6dIOw .
+Write a programme in python to apply simple linear regression and find out mean
+absolute error, mean squared error and root mean squared error
+
+# Import the necessary libraries
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+
+# Load the student data set
+df = pd.read_csv('student_data.csv')
+
+# Extract the independent and dependent variables
+X = df[['study_hours']]
+y = df['student_marks']
+
+# Create the linear regression model
+model = LinearRegression()
+
+# Train the model on the data
+model.fit(X, y)
+
+# Predict on the test data
+predictions = model.predict(X)
+
+# Calculate the mean absolute error, mean squared error, and root mean squared error
+mae = mean_absolute_error(y, predictions)
+mse = mean_squared_error(y, predictions)
+rmse = np.sqrt(mse)
+
+# Print the results
+print("Mean Absolute Error:", mae)
+print("Mean Squared Error:", mse)
+print("Root Mean Squared Error:", rmse)
+
+--------------------------------------------------------------------------------
+Q2)Write a python program to implement k-means algorithms on asynthetic
+dataset.
+
+# Import the necessary libraries
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_blobs
+from sklearn.cluster import KMeans
+
+# Generate synthetic data using sklearn's make_blobs function
+X, y = make_blobs(n_samples=200, centers=4, random_state=0)
+
+# Create the k-means model
+model = KMeans(n_clusters=4)
+
+# Fit the model to the data
+model.fit(X)
+
+# Predict the clusters for each data point
+y_pred = model.predict(X)
+
+# Plot the original data and the predicted clusters
+plt.scatter(X[:, 0], X[:, 1], c=y_pred)
+plt.show()
+-------------------------------------------------------------------------------
+Q3)Consider the following observations/data. And apply simple linear regression and find
+out estimated coefficients b0 and b1.( use numpypackage)
+x=[0,1,2,3,4,5,6,7,8,9,11,13]
+y = ([1, 3, 2, 5, 7, 8, 8, 9, 10, 12,16, 18]
+
+# Import the necessary libraries
+import numpy as np
+
+# Define the data
+x = np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 13])
+y = np.array([1, 3, 2, 5, 7, 8, 8, 9, 10, 12, 16, 18])
+
+# Calculate the mean of x and y
+x_mean = np.mean(x)
+y_mean = np.mean(y)
+
+# Calculate b1 (slope)
+numerator = 0
+denominator = 0
+for i in range(len(x)):
+    numerator += (x[i] - x_mean) * (y[i] - y_mean)
+    denominator += (x[i] - x_mean) ** 2
+b1 = numerator / denominator
+
+# Calculate b0 (intercept)
+b0 = y_mean - b1 * x_mean
+
+# Print the results
+print("b0:", b0)
+print("b1:", b1)
+-------------------------------------------------------------------------------------
+Q4). Consider following dataset
+weather=['Sunny','Sunny','Overcast','Rainy','Rainy','Rainy','Overcast','Sunny','Sunny','Rainy','Sunn
+y','Overcast','Overcast','Rainy']
+temp=['Hot','Hot','Hot','Mild','Cool','Cool','Cool','Mild','Cool','Mild','Mild','Mild','Hot','Mild']
+play=['No','No','Yes','Yes','Yes','No','Yes','No','Yes','Yes','Yes','Yes','Yes','No'].
+Use Naïve Bayes algorithm to predict [0: Overcast, 2: Mild]tuple belongs to which class
+whether to play the sports or not.
+
+# Import the necessary libraries
+from sklearn.preprocessing import LabelEncoder
+from sklearn.naive_bayes import MultinomialNB
+
+# Define the data
+weather = ['Sunny', 'Sunny', 'Overcast', 'Rainy', 'Rainy', 'Rainy', 'Overcast', 'Sunny', 'Sunny', 'Rainy', 'Sunny', 'Overcast', 'Overcast', 'Rainy']
+temp = ['Hot', 'Hot', 'Hot', 'Mild', 'Cool', 'Cool', 'Cool', 'Mild', 'Cool', 'Mild', 'Mild', 'Mild', 'Hot', 'Mild']
+play = ['No', 'No', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'No', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'No']
+
+# Encode the categorical data using LabelEncoder
+le_weather = LabelEncoder()
+le_temp = LabelEncoder()
+le_play = LabelEncoder()
+
+weather = le_weather.fit_transform(weather)
+temp = le_temp.fit_transform(temp)
+play = le_play.fit_transform(play)
+
+# Create the input data as a 2D array
+X = np.column_stack((weather, temp))
+
+# Create the Naive Bayes model
+model = MultinomialNB()
+
+# Train the model on the data
+model.fit(X, play)
+
+# Predict the class for the tuple (0, 2)
+prediction = model.predict([[0, 2]])
+prediction_class = le_play.inverse_transform(prediction)
+
+# Print the result
+print("Prediction:", prediction_class[0])
+---------------------------------------------------------------------------------
+Q5)Write a Python program build Decision Tree Classifier using Scikit- learn package for
+diabetes data set (download database from https://www.kaggle.com/uciml/pimaindians-diabetes-database)
+
+# Import the necessary libraries
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+
+# Load the diabetes data set
+df = pd.read_csv('diabetes.csv')
+
+# Extract the input and output data
+X = df.drop('Outcome', axis=1)
+y = df['Outcome']
+
+# Split the data into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+
+# Create the Decision Tree Classifier
+model = DecisionTreeClassifier()
+
+# Train the model on the training data
+model.fit(X_train, y_train)
+
+# Test the model on the test data
+accuracy = model.score(X_test, y_test)
+
+# Print the accuracy
+print("Accuracy:", accuracy)
+------------------------------------------------------------------------------------------------------------------------
+Q5)Write a python program to implement hierarchical Agglomerative clusteringalgorithm.
+(Download Customer.csv dataset from github.com).
+
+# Import the necessary libraries
+import pandas as pd
+from scipy.cluster.hierarchy import dendrogram, linkage
+from sklearn.cluster import AgglomerativeClustering
+import matplotlib.pyplot as plt
+
+# Load the customer data set
+df = pd.read_csv('customers.csv')
+
+# Extract the input data
+X = df.values
+
+# Create the linkage matrix using the ward method
+linkage_matrix = linkage(X, method='ward')
+
+# Create the dendrogram plot
+dendrogram(linkage_matrix)
+plt.show()
+
+# Create the Agglomerative Clustering model
+model = AgglomerativeClustering(n_clusters=4)
+
+# Fit the model to the data
+model.fit(X)
+
+# Predict the clusters for each data point
+y_pred = model.fit_predict(X)
+
+# Print the cluster assignments
+print(y_pred)
+--------------------------------------------------------------------------------
+Q6)Consider the following observations/data. And apply simple linear regression and find out
+estimated coefficients b1 and b1 Also analyse theperformance of the model
+(Use sklearn package)
+x = np.array([1,2,3,4,5,6,7,8])
+y = np.array([7,14,15,18,19,21,26,23])
+
+# Import the necessary libraries
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+import numpy as np
+
+# Define the data
+x = np.array([1, 2, 3, 4, 5, 6, 7, 8])
+y = np.array([7, 14, 15, 18, 19, 21, 26, 23])
+
+# Create the linear regression model
+model = LinearRegression()
+
+# Train the model on the data
+model.fit(x.reshape(-1, 1), y)
+
+# Predict on the test data
+predictions = model.predict(x.reshape(-1, 1))
+
+# Calculate the mean squared error and the R^2 score
+mse = mean_squared_error(y, predictions)
+r2 = r2_score(y, predictions)
+
+# Print the results
+print("Coefficients:", model.coef_, model.intercept_)
+print("Mean Squared Error:", mse)
+print("R^2 Score:", r2)
+----------------------------------------------------------------------------------------
+Q7)Write a python program to implement k-means algorithm to build prediction model (Use
+Credit Card Dataset CC GENERAL.csv Download from kaggle.com)
+
+# Import the necessary libraries
+import pandas as pd
+from sklearn.cluster import KMeans
+
+# Load the credit card data set
+df = pd.read_csv('CC_GENERAL.csv')
+
+# Extract the input data
+X = df.drop('TENURE', axis=1)
+
+# Create the k-means model
+model = KMeans(n_clusters=4)
+
+# Fit the model to the data
+model.fit(X)
+
+# Predict the clusters for each data point
+y_pred = model.predict(X)
+
+# Print the cluster assignments
+print(y_pred)
+-------------------------------------------------------------------------
+Q8)Write a Python program to build an SVM model to Cancer dataset. The dataset is
+available in the scikit-learn library. Check the accuracyof model with precision and
+recall
+
+
+# Import the necessary libraries
+from sklearn import datasets
+from sklearn.svm import SVC
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import precision_score, recall_score
+
+# Load the cancer data set
+cancer = datasets.load_breast_cancer()
+
+# Extract the input and output data
+X = cancer.data
+y = cancer.target
+
+# Split the data into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+
+# Create the SVM model
+model = SVC(kernel='linear')
+
+# Train the model on the training data
+model.fit(X_train, y_train)
+
+# Test the model on the test data
+y_pred = model.predict(X_test)
+
+# Calculate the precision and recall
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+
+# Print the results
+print("Precision:", precision)
+print("Recall:", recall)
+----------------------------------------------------------------------------
+Q9)Write a Python Programme to read the dataset (“Iris.csv”). dataset download from
+(https://archive.ics.uci.edu/ml/datasets/iris) and apply Apriori algorithm.
+
+# Import the necessary libraries
+import pandas as pd
+from apyori import apriori
+
+# Load the Iris data set
+df = pd.read_csv('Iris.csv')
+
+# Extract the input data as a list of lists
+data = df.values.tolist()
+
+# Run the Apriori algorithm
+association_rules = apriori(data, min_support=0.5, min_confidence=0.5)
+
+# Print the association rules
+for item in association_rules:
+    pair = item[0]
+    items = [x for x in pair]
+    print("Rule:", items[0], "->", items[1])
+    print("Support:", item[1])
+    print("Confidence:", item[2][0][2])
+    print("Lift:", item[2][0][3])
+    print("=====================================")
+-------------------------------------------------------------------------------------
+Q10)Write a python program to implement hierarchical clustering algorithm.(Download
+Wholesale customers data dataset from github.com)
+
+# Import the necessary libraries
+import pandas as pd
+from scipy.cluster.hierarchy import dendrogram, linkage
+from sklearn.cluster import AgglomerativeClustering
+import matplotlib.pyplot as plt
+
+# Load the wholesale customers data set
+df = pd.read_csv('wholesale_customers.csv')
+
+# Extract the input data
+X = df.values
+
+# Create the linkage matrix using the ward method
+linkage_matrix = linkage(X, method='ward')
+
+# Create the dendrogram plot
+dendrogram(linkage_matrix)
+plt.show()
+
+# Create the Agglomerative Clustering model
+model = AgglomerativeClustering(n_clusters=4)
+
+# Fit the model to the data
+model.fit(X)
+
+# Predict the clusters for each data point
+y_pred = model.fit_predict(X)
+
+# Print the cluster assignments
+print(y_pred)
+------------------------------------------------------------------------------------
+Q11). Write a python program to implement multiple Linear Regression modelfor a car dataset.
+Dataset can be downloaded from:
+https://www.w3schools.com/python/python_ml_multiple_regression.asp
+
+# Import the necessary libraries
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+
+# Load the car data set
+df = pd.read_csv('car_data.csv')
+
+# Extract the input and output data
+X = df[['ENGINESIZE', 'CYLINDERS', 'FUELCONSUMPTION_CITY', 'FUELCONSUMPTION_HWY']]
+y = df['CO2EMISSIONS']
+
+# Create the linear regression model
+model = LinearRegression()
+
+# Train the model on the data
+model.fit(X, y)
+
+# Predict on a new data point
+new_data = [[3.5, 6, 10, 8]]
+prediction = model.predict(new_data)
+
+# Print the prediction
+print(prediction)
+----------------------------------------------------------------------------------------------------------------------------------------
+Q12)Write a  very simple Python program to read “StudentsPerformance.csv” file. Solvefollowing:
+- To display the shape of dataset.
+- To display the top rows of the dataset with their columns.Note: Download
+dataset from following link :
+(https://www.kaggle.com/spscientist/students-performance-inexams?
+select=StudentsPerformance.csv
+
+
+# Import the necessary libraries
+import pandas as pd
+
+# Load the data set
+df = pd.read_csv('StudentsPerformance.csv')
+
+# Print the shape of the data set
+print("Shape of the data set:", df.shape)
+
+# Print the top rows of the data set with their columns
+print(df.head())
+---------------------------------------------------------------------------------------------------------------------------------
+Q13)Write a Python Programme to apply Apriori algorithm on Groceries dataset. Dataset
+can be downloaded from
+(https://github.com/amankharwal/Websitedata/blob/master/Groceries
+_dataset.csv).
+Also display support and confidence for each rule
+
+
+
+# Import the necessary libraries
+import pandas as pd
+from apyori import apriori
+
+# Load the groceries data set
+df = pd.read_csv('Groceries_dataset.csv')
+
+# Extract the input data as a list of lists
+data = df.values.tolist()
+
+# Run the Apriori algorithm
+association_rules = apriori(data, min_support=0.001, min_confidence=0.2)
+
+# Print the association rules with support and confidence
+for item in association_rules:
+    pair = item[0]
+    items = [x for x in pair]
+    print("Rule:", items[0], "->", items[1])
+    print("Support:", item[1])
+    print("Confidence:", item[2][0][2])
+    print("=====================================")
+----------------------------------------------------------------------------------------------
+Q14)Write a Python program build Decision Tree Classifier forshows.csvfrom pandas and
+predict class label for show starring a 40 years old American comedian, with 10
+years of experience, and a comedy ranking of 7? Create a csv file as shown in
+https://www.w3schools.com/python/python_ml_decision_tree.asp
+
+# Import the necessary libraries
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+
+# Load the data set
+df = pd.read_csv('shows.csv')
+
+# Extract the input and output data
+X = df[['Age', 'Experience', 'Ranking']]
+y = df['Success']
+
+# Create the decision tree classifier
+model = DecisionTreeClassifier()
+
+# Train the model on the data
+model.fit(X, y)
+
+# Predict the class label for a new data point
+new_data = [[40, 10, 7]]
+prediction = model.predict(new_data)
+
+# Print the prediction
+print(prediction)
+-----------------------------------------------------------------------------------------
+Q15)Done previously
+----------------------------------------------------------------------------------------
+Q16)Write a python programme to implement multiple linear regression modelfor stock market
+data frame as follows:
+Stock_Market = {'Year':
+[2017,2017,2017,2017,2017,2017,2017,2017,2017,2017,2017,2017,2016,2
+016,20,16,2016,2016,2016,2016,2016,2016,2016,2016,2016],
+'Month': [12, 11,10,9,8,7,6,5,4,3,2,1,12,11,10,9,8,7,6,5,4,3,2,1],
+'Interest_Rate': [2.75,2.5,2.5,2.5,2.5,2.5,2.5,2.25,2.25,2.25,2,2,2,1.75,1.75,1.75,1.75,1.75,1
+.75,1.75,1.75,1.75,1.75,1.75],
+'Unemployment_Rate':
+[5.3,5.3,5.3,5.3,5.4,5.6,5.5,5.5,5.5,5.6,5.7,5.9,6,5.9,5.8,6.1,6.2,6.1,6.1,6.1,5
+.9,6.2,6.2,6.1],
+'Stock_Index_Price': [1464,1394,1357,1293,1256,1254,1234,1195,1159,1167,1130,1075,1047,
+965,943,958,971,949,884,866,876,822,704,719] }
+And draw a graph of stock market price verses interest rate
+
+
+
+# Import the necessary libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+# Create the data frame
+df = pd.DataFrame({'Year': [2017, 2017, 2017, 2017, 2017, 2017, 2017, 2017, 2017, 2017, 2017, 2017, 2016, 2016, 2016, 2016, 2016, 2016, 2016, 2016, 2016, 2016, 2016, 2016],
+                   'Month': [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+                   'Interest_Rate': [2.75, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.25, 2.25, 2.25, 2, 2, 2, 1.75, 1.75, 1.75, 1.75, 1.75, 1.75, 1.75, 1.75, 1.75, 1.75, 1.75],
+                   'Unemployment_Rate': [5.3, 5.3, 5.3, 5.3, 5.4, 5.6, 5.5, 5.5, 5.5, 5.6, 5.7, 5.9, 6, 5.9, 5.8, 6.1, 6.2, 6.1, 6.1, 6.1, 5.9, 6.2, 6.2, 6.1],
+                   'Stock_Index_Price': [1464, 1394, 1357, 1293, 1256, 1254, 1234, 1195, 1159, 1167, 1130, 1075, 1047, 965, 943, 958, 971, 949, 884, 866, 876, 822, 704, 719]})
+
+# Extract the input and output data
+X = df[['Interest_Rate']]
+y = df['Stock_Index_Price']
+
+# Create the linear regression model
+model = LinearRegression
+# Train the model on the data
+model.fit(X, y)
+
+# Make predictions on a new data point
+new_data = [[2.5]]
+prediction = model.predict(new_data)
+print("Prediction:", prediction)
+
+# Plot the data and the regression line
+plt.scatter(X, y)
+plt.plot(X, model.predict(X), color='red')
+plt.xlabel('Interest Rate')
+plt.ylabel('Stock Market Price')
+plt.show()
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Q17)Q18)Q19Q20) Doneee previously
